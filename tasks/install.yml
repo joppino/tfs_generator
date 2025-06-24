@@ -8,12 +8,18 @@
 
 - name: Get tf binary
   block:
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+        manager: auto
+
     - name: Install unzip
       ansible.builtin.package:
         name: unzip
         state: present
       become: true
-      when: ansible_os_family != "Darwin"
+      when:
+        - ansible_os_family != "Darwin"
+        - '"unzip" not in ansible_facts.packages'
 
     - name: "Create directory for tf binary under {{ tf_config_dir }}"
       ansible.builtin.file:
