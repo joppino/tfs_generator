@@ -1,5 +1,19 @@
 ---
 
+
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Install mkisofs
+  ansible.builtin.package:
+    name: genisoimage
+    state: present
+  become: true
+  when:
+    - ansible_os_family != "Darwin"
+    - '"genisoimage" not in ansible_facts.packages'
+
 - name: Purge Libvirt output directory
   ansible.builtin.file:
     path: "{{ tf_config_dir }}"
