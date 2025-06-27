@@ -21,14 +21,14 @@ resource "libvirt_network" "{{ network.name }}" {
     dns {
       enabled = {{ network.dns_enabled | lower() }}
       local_only = {{ network.dns_local_only | default('false') | lower() }}
-
+{% if network.dns_forwarders is defined and network.dns_forwarders|length > 0 %}
 {% for forwarder in network.dns_forwarders %}
       forwarders {
         address = "{{ forwarder.address }}"
         domain = "{{ forwarder.domain }}"
       } 
 {% endfor %}
-
+{% endif %}
 {% if network.dns_host is defined %}
 {% for host in network.dns_hosts %}
       hosts  {
