@@ -39,6 +39,10 @@ resource "libvirt_domain" "{{ vm.name }}" {
   cloudinit = libvirt_cloudinit_disk.{{ vm.cloudinit_disk }}.id
 {% endif %}
 
+{% if vm.qemu_agent is defined %}
+  qemu_agent = {{ vm.qemu_agent|lower }}
+{% endif %}
+
 {% if vm.coreos_ignition is defined %}
   coreos_ignition = libvirt_ignition.{{ vm.coreos_ignition }}.id
 {% endif %}
