@@ -55,7 +55,7 @@ tf_libvirt_volumes:
 tf_libvirt_cloud_inits:
   - name: 'mylabcloudinit'
     pool: 'mylabpool'
-    cfg:
+    user_data:
       ssh_pwauth: true
       users:
         - name: myuser

@@ -17,10 +17,15 @@
 
 - name: Add dynamic cloud_init.cfg files to keep list
   ansible.builtin.set_fact:
-    files_to_keep: "{{ files_to_keep + [ tf_config_dir + '/cloud_init_' + item.name + '.cfg' ] }}"
-  with_items:
+    files_to_keep: "{{ files_to_keep + [ tf_config_dir + '/cloud_init_' + item.0.name + '.' + item.1 + '.cfg' ] }}"
+  when: item.0[item.1] is defined
+  with_nested:
     - "{{ tf_libvirt_cloud_inits }}"
+    - ["user_data", "network_config"]
 
+- name: debug
+  debug: 
+    msg: "{{ files_to_keep }}"
 - name: Add dynamic .vms.tf files to keep list
   ansible.builtin.set_fact:
     files_to_keep: "{{ files_to_keep + [ tf_config_dir + '/' + item + '.vms.tf' ] }}"

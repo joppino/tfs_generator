@@ -10,10 +10,20 @@ resource "libvirt_cloudinit_disk" "{{ cloud_init.name }}" {
   name      = "cloud_init_{{ cloud_init.name }}.iso"
   pool      = "{{ cloud_init.pool | default('default') }}"
   user_data = data.template_file.user_data_{{ cloud_init.name }}.rendered
+{% if cloud_init.network_config is defined %}
+  network_config = data.template_file.network_config_{{ cloud_init.name }}.rendered
+{% endif %}
 }
 
 data "template_file" "user_data_{{ cloud_init.name }}" {
-  template = file("${path.module}/cloud_init_{{ cloud_init.name }}.cfg")
+  template = file("${path.module}/cloud_init_{{ cloud_init.name }}.user_data.cfg")
 }
+
+{% if cloud_init.network_config is defined %}
+data "template_file" "network_config_{{ cloud_init.name }}" {
+  template = file("${path.module}/cloud_init_{{ cloud_init.name }}.network_config.cfg")
+}
+{% endif %}
+
 {% endfor %}
 {% endif %}
