@@ -4,6 +4,8 @@
 resource "libvirt_pool" "{{ pool.name }}" {
   name = "{{ pool.name }}"
   type = "{{ pool.type }}"
-  path = "{{ pool.path }}"
+  target {
+    path = "{{ pool.path }}"
+  }
 }
 {% endfor %}
