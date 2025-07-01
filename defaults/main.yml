@@ -20,7 +20,7 @@ tf_purge: false
 tf_cloud_provider: 'libvirt'
 
 # Libvirt defaults
-
+tf_libvirt_provider: 'dmacvicar/libvirt'
 tf_libvirt_provider_version: '0.7.1'
 
 # Libvirt connection uri

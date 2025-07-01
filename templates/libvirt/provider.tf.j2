@@ -7,7 +7,7 @@ terraform {
     }
 
     libvirt = {
-      source = "dmacvicar/libvirt"
+      source = "{{ tf_libvirt_provider }}"
       version = "{{ tf_libvirt_provider_version }}"
     }
   }
