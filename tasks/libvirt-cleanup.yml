@@ -26,11 +26,20 @@
 - name: debug
   debug: 
     msg: "{{ files_to_keep }}"
+
 - name: Add dynamic .vms.tf files to keep list
   ansible.builtin.set_fact:
     files_to_keep: "{{ files_to_keep + [ tf_config_dir + '/' + item + '.vms.tf' ] }}"
   with_items:
     - "{{ tf_libvirt_vms_groups }}"
+  when: tf_libvirt_vms_keep_strategy == 'group'
+
+- name: Add .vms.tf files to keep list using glob from directory
+  ansible.builtin.set_fact:
+    files_to_keep: "{{ files_to_keep + [item] }}"
+  with_fileglob:
+    - "{{ tf_config_dir + '/' + tf_libvirt_vms_keep_pattern }}"
+  when: tf_libvirt_vms_keep_strategy == 'pattern'
 
 - name: Get the stats (including absolute paths) of the remote files
   ansible.builtin.stat:

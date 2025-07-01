@@ -5,6 +5,12 @@
   when:
     - tf_binary_install | bool
 
+- name: Fail if tf_config_dir is not an absolute path
+  assert:
+    that:
+      - tf_config_dir[0] == '/'
+    fail_msg: tf_config_dir must be an absolute path
+    
 - name: "Create local configurations directory {{ tf_config_dir }}"
   ansible.builtin.file:
     path: "{{ tf_config_dir }}"

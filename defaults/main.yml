@@ -11,7 +11,7 @@ tf_binary_url: "https://releases.hashicorp.com/terraform/{{ tf_binary_version }}
 tf_cmd: 'terraform'
 
 # Where to deploy tf resource files
-tf_config_dir: 'tfs'
+tf_config_dir: "{{ playbook_dir ~ '/tfs' }}"
 
 # Delete existing resources before deploying new ones
 tf_purge: false
@@ -29,6 +29,10 @@ tf_libvirt_uri: 'qemu:///system'
 # Which groups of machines will be processed by the role
 tf_libvirt_vms_groups:
   - 'mylabvmsgroup'
+
+# Which strategy to use for keeping VMs (groups or pattern)
+tf_libvirt_vms_keep_strategy: groups
+tf_libvirt_vms_keep_pattern: '*.vms.tf'
 
 # Libvirt vNets configuration
 tf_libvirt_networks:
