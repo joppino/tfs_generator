@@ -23,8 +23,8 @@ resource "libvirt_volume" "{{ disk.volume_id }}" {
 {% endfor %}
 
 # VM {{ vm.name }} specification
-resource "libvirt_domain" "{{ vm.name }}" {
-  name                         = "{{ vm.name }}"
+resource "libvirt_domain" "{{ tf_group_name }}_{{ vm.name }}" {
+  name                         = "{{ host }}"
   running                      = {{ vm.running | default('true') | lower() }}
   memory                       = "{{ vm.memory }}"
   vcpu                         = "{{ vm.vcpu }}"
